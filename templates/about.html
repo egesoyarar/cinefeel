@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cinefeel - About Us</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav>
+        <div class="logo">Cinefeel</div>
+        <div class="nav-links">
+            <a href="{{ url_for('index') }}">Home</a>
+            <a href="{{ url_for('about') }}" class="active">About</a>
+            <a href="{{ url_for('login') }}">Login</a>
+            <a href="{{ url_for('signup') }}" class="signup-btn">Sign Up</a>
+        </div>
+    </nav>
+    
+    <div class="about-container">
+        <div class="about-content">
+            <h1>About <span class="highlight">Cinefeel</span></h1>
+            <div class="about-section">
+                <h2>Our Mission</h2>
+                <p>At Cinefeel, we believe that every movie has the power to inspire, entertain, and connect people. Our mission is to help movie enthusiasts discover their next favorite film through personalized recommendations and a vibrant community of fellow movie lovers.</p>
+            </div>
+            
+            <div class="about-section">
+                <h2>What We Offer</h2>
+                <ul>
+                    <li>Personalized movie recommendations based on your preferences</li>
+                    <li>Comprehensive movie database with detailed information</li>
+                    <li>User reviews and ratings</li>
+                    <li>Curated lists for different genres and moods</li>
+                </ul>
+            </div>
+            
+            <div class="about-section">
+                <h2>Join Our Community</h2>
+                <p>Whether you're a casual viewer or a dedicated cinephile, Cinefeel is your destination for all things cinema. Join our growing community and start your journey of movie discovery today.</p>
+                <a href="{{ url_for('signup') }}" class="btn signup-btn">Get Started</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 
