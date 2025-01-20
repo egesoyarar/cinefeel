@@ -1,0 +1,127 @@
+{% extends "base.html" %}
+
+{% block title %}Cinefeel - Discover Movies{% endblock %}
+
+{% block content %}
+<div class="container">
+    <section class="hero">
+        <h1>Welcome to <span class="highlight">Cinefeel</span></h1>
+        <p>Discover your next favorite movie</p>
+    </section>
+
+    <section class="movies-section">
+        <div class="movies-grid" id="moviesGrid"></div>
+        <div id="loadingSpinner" class="loading-spinner">
+            <div class="spinner"></div>
+        </div>
+    </section>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+let currentPage = 1;
+let isLoading = false;
+let hasMore = true;
+
+async function loadMovies() {
+    console.log('LoadMovies called:', { currentPage, isLoading, hasMore });
+    if (isLoading || !hasMore) {
+        console.log('Loading prevented:', { isLoading, hasMore });
+        return;
+    }
+    
+    try {
+        isLoading = true;
+        document.getElementById('loadingSpinner').style.display = 'block';
+        
+        console.log('Fetching page:', currentPage);
+        const response = await fetch(`/api/movies?page=${currentPage}`);
+        const data = await response.json();
+        
+        console.log('Received data:', data);
+        
+        if (response.ok) {
+            renderMovies(data.movies);
+            hasMore = data.hasMore;
+            currentPage++;
+            console.log('Updated state:', { currentPage, hasMore });
+        } else {
+            console.error('Error loading movies:', data.error);
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    } finally {
+        isLoading = false;
+        document.getElementById('loadingSpinner').style.display = 'none';
+    }
+}
+
+function renderMovies(movies) {
+    const moviesGrid = document.getElementById('moviesGrid');
+    
+    movies.forEach(movie => {
+        const movieCard = document.createElement('div');
+        movieCard.className = 'movie-card';
+        
+        movieCard.innerHTML = `
+            <div class="movie-poster">
+                ${movie.poster && movie.poster !== 'N/A' 
+                    ? `<img src="${movie.poster}" alt="${movie.title}">`
+                    : `<div class="no-poster">No poster available</div>`
+                }
+            </div>
+            <div class="movie-info">
+                <h3>${movie.title}</h3>
+                <div class="movie-meta">
+                    <span class="rating">★ ${movie.rating}</span>
+                    <span class="year">${movie.year}</span>
+                </div>
+            </div>
+        `;
+        
+        moviesGrid.appendChild(movieCard);
+    });
+}
+
+function createObserver() {
+    const options = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.1
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting && !isLoading && hasMore) {
+                loadMovies();
+            }
+        });
+    }, options);
+
+    const spinner = document.getElementById('loadingSpinner');
+    if (spinner) {
+        observer.observe(spinner);
+    }
+    return observer;
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    loadMovies(); // Load initial batch
+    const observer = createObserver();
+    
+    // Debug logs
+    console.log('Initial load triggered');
+    
+    // Add scroll event as backup
+    window.addEventListener('scroll', () => {
+        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 1000) {
+            if (!isLoading && hasMore) {
+                console.log('Loading more movies from scroll event');
+                loadMovies();
+            }
+        }
+    });
+});
+</script>
+{% endblock %}

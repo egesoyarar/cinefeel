@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}Cinefeel - Profile{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="profile-section">
+        <h2>Your Profile</h2>
+        <div class="profile-info">
+            <div class="info-group">
+                <label>Full Name</label>
+                <p>{{ session.get('fullname') }}</p>
+            </div>
+            <div class="info-group">
+                <label>Email</label>
+                <p>{{ session.get('email') }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

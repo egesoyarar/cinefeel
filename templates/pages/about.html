@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}Cinefeel - About Us{% endblock %}
+
+{% block content %}
+<div class="container">
+    <section class="about-section">
+        <h1>About <span class="highlight">Cinefeel</span></h1>
+        
+        <div class="about-content">
+            <div class="about-card">
+                <h2>Our Mission</h2>
+                <p>At Cinefeel, we believe that every movie has the power to inspire, entertain, and connect people. Our mission is to help movie enthusiasts discover their next favorite film through personalized recommendations and a vibrant community of fellow movie lovers.</p>
+            </div>
+            
+            <div class="about-card">
+                <h2>What We Offer</h2>
+                <ul class="feature-list">
+                    <li>Personalized movie recommendations</li>
+                    <li>Comprehensive movie database</li>
+                    <li>User reviews and ratings</li>
+                    <li>Curated lists for different genres</li>
+                </ul>
+            </div>
+            
+            <div class="about-card">
+                <h2>Join Our Community</h2>
+                <p>Whether you're a casual viewer or a dedicated cinephile, Cinefeel is your destination for all things cinema.</p>
+                <a href="{{ url_for('signup') }}" class="btn btn-primary">Get Started</a>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %} 
+</html> 
